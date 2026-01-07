@@ -1,7 +1,6 @@
 import { post, get } from './api'
 
-const AUTH_PATH = '/api/v1/web/auth/'
-const USER_PATH = '/api/v1/web/admin/'
+const AUTH_PATH = '/api/v1/web/auth'
 
 export const login = async (credentials) => {
   const response = await post(AUTH_PATH + '/login', {
@@ -12,17 +11,17 @@ export const login = async (credentials) => {
 }
 
 export const getUser = async () => {
-  const response = await get(USER_PATH)
+  const response = await get(AUTH_PATH + '/user')
   return response
 }
 
 export const register = async (userData) => {
-  const response = await post(AUTH_PATH + 'register', userData)
+  const response = await post(AUTH_PATH + '/register', userData)
   return response
 }
 
 export const logout = async () => {
-  const response = await post(AUTH_PATH + 'logout')
+  const response = await post(AUTH_PATH + '/logout')
   return response
 }
 

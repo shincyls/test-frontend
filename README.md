@@ -1,5 +1,61 @@
-# Vue 3 + Vite
+# Fitness Centre Frontend
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+A Vue 3 + Vite application for managing a fitness centre. Provides a modern UI for members and bookings management.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## Features
+
+- **Dashboard**: Overview of fitness centre statistics
+- **Members Management**: View, create, edit, and delete members
+- **Bookings Management**: View, create, edit, and delete class bookings
+- **Authentication**: Login/Logout with token-based auth
+
+## Requirements
+
+- Node.js 18+
+- npm or yarn
+
+## Installation
+
+```bash
+# Install dependencies
+npm install
+```
+
+## Running Development Server
+
+```bash
+npm run dev
+```
+
+The app will be available at `http://localhost:5173`
+
+## Building for Production
+
+```bash
+npm run build
+```
+
+Build output will be in the `dist` folder.
+
+## Configuration
+
+The API URL is configured in `src/services/api.js`. By default it points to `http://127.0.0.1:8000`.
+
+## Project Structure
+
+```
+src/
+├── components/     # Reusable components (DataTable, Navbar, Sidebar)
+├── layouts/        # Layout components (MainLayout)
+├── pages/          # Page components (Dashboard, Members, Bookings, Login)
+├── router/         # Vue Router configuration
+├── services/       # API services (api, auth, user, booking)
+├── store/          # Vuex store
+├── App.vue         # Root component
+└── main.js         # App entry point
+```
+
+## Test Credentials
+
+- **Username**: `admin`
+- **Password**: `password123`

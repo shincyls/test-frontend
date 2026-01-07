@@ -63,22 +63,32 @@ export default {
       { field: 'name', title: 'Name', sortable: true },
       { field: 'username', title: 'Username', sortable: true },
       { field: 'email', title: 'Email', sortable: true },
+      { field: 'phone', title: 'Phone', sortable: true },
       { field: 'position', title: 'Position', sortable: true },
+      { field: 'department', title: 'Department', sortable: true },
       { field: 'role', title: 'Role', sortable: true },
       { field: 'isActive', title: 'Status', sortable: true },
-      { field: 'createdAt', title: 'Joined', sortable: true }
+      { field: 'current_points', title: 'Points', sortable: true },
+      { field: 'created_at', title: 'Joined', sortable: true }
     ]
 
     const memberFormFields = [
       { key: 'name', label: 'Name', type: 'text', required: true },
       { key: 'username', label: 'Username', type: 'text', required: true },
       { key: 'email', label: 'Email', type: 'email', required: true },
+      { key: 'phone', label: 'Phone', type: 'text' },
       { key: 'position', label: 'Position', type: 'text' },
       { key: 'department', label: 'Department', type: 'text' },
       { key: 'role', label: 'Role', type: 'select', options: [
+        { value: 'member', label: 'Member' },
         { value: 'staff', label: 'Staff' },
         { value: 'admin', label: 'Admin' }
       ]},
+      { key: 'isActive', label: 'Active', type: 'select', options: [
+        { value: true, label: 'Active' },
+        { value: false, label: 'Inactive' }
+      ]},
+      { key: 'current_points', label: 'Points', type: 'number' },
       { key: 'password', label: 'Password (Leave blank to keep current)', type: 'password' },
     ]
 
@@ -130,7 +140,7 @@ export default {
 
     const handleUpdate = async (data) => {
       try {
-        await userService.updateUser(data._id, data)
+        await userService.updateUser(data.id, data)
         toast.success('Member updated successfully!')
         fetchMembers(currentParams.value)
       } catch (error) {
@@ -141,7 +151,7 @@ export default {
 
     const handleDelete = async (row) => {
       try {
-        await userService.deleteUser(row._id)
+        await userService.deleteUser(row.id)
         toast.success('Member deleted successfully!')
         fetchMembers(currentParams.value)
       } catch (error) {

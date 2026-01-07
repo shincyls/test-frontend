@@ -33,7 +33,7 @@
           </div>
           <div class="stat-info">
             <h3>Today's Bookings</h3>
-            <p class="stat-value">--</p>
+            <p class="stat-value">{{ todayBookings }}</p>
           </div>
         </div>
       </div>
@@ -45,21 +45,31 @@
 import { ref, onMounted } from 'vue'
 import MainLayout from '../layouts/MainLayout.vue'
 import userService from '../services/user'
+import bookingService from '../services/booking'
 
 export default {
   name: 'DashboardPage',
   components: { MainLayout },
   setup() {
+
     const totalMembers = ref(0)
+    const todayBookings = ref(0)
 
     const fetchStats = async () => {
       try {
+
         const response = await userService.getUsers({ page: 1, limit: 1 })
         totalMembers.value = response.total || response.meta?.total || 0
+
+        const bookingResponse = await bookingService.getBookings({ page: 1, limit: 1 })
+        todayBookings.value = bookingResponse.total || bookingResponse.meta?.total || 0
+
       } catch (error) {
         console.error('Failed to fetch stats:', error)
       }
     }
+
+    
 
     onMounted(() => { fetchStats() })
 

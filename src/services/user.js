@@ -1,6 +1,6 @@
 import { get, post, put, del } from './api'
 
-const USER_PATH = '/api/v1/web/admin/'
+const USER_PATH = '/api/v1/web/members/'
 
 export const getUsers = async (params = {}) => {
   const response = await get(USER_PATH, params)

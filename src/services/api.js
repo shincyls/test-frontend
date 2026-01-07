@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:3000'
+const API_BASE_URL = 'http://127.0.0.1:8000'
 
 const getToken = () => localStorage.getItem('token')
 
@@ -18,7 +18,8 @@ export const apiRequest = async (path, options = {}) => {
 
   const response = await fetch(API_BASE_URL + path, {
     ...options,
-    headers
+    headers,
+    credentials: 'omit' // disable cookies for laravel php
   })
 
   const data = await response.json()

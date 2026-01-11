@@ -32,8 +32,8 @@
             <i class="mdi mdi-calendar-clock"></i>
           </div>
           <div class="stat-info">
-            <h3>Today's Bookings</h3>
-            <p class="stat-value">{{ todayBookings }}</p>
+            <h3>Total Bookings</h3>
+            <p class="stat-value">{{ totalBookings }}</p>
           </div>
         </div>
       </div>
@@ -53,7 +53,7 @@ export default {
   setup() {
 
     const totalMembers = ref(0)
-    const todayBookings = ref(0)
+    const totalBookings = ref(0)
 
     const fetchStats = async () => {
       try {
@@ -62,7 +62,7 @@ export default {
         totalMembers.value = response.total || response.meta?.total || 0
 
         const bookingResponse = await bookingService.getBookings({ page: 1, limit: 1 })
-        todayBookings.value = bookingResponse.total || bookingResponse.meta?.total || 0
+        totalBookings.value = bookingResponse.total || bookingResponse.meta?.total || 0
 
       } catch (error) {
         console.error('Failed to fetch stats:', error)
@@ -73,7 +73,7 @@ export default {
 
     onMounted(() => { fetchStats() })
 
-    return { totalMembers, todayBookings }
+    return { totalMembers, totalBookings }
   }
 }
 </script>

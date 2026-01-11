@@ -26,6 +26,14 @@
               <input v-model="filters.class_name" type="text" placeholder="Search by class..." @input="onFilterChange" />
             </div>
             <div class="filter-group">
+              <label>Username</label>
+              <input v-model="filters.username" type="text" placeholder="Search by member name..." @input="onFilterChange" />
+            </div>
+            <div class="filter-group">
+              <label>Phone</label>
+              <input v-model="filters.phone" type="text" placeholder="Search by phone..." @input="onFilterChange" />
+            </div>
+            <div class="filter-group">
               <label>Status</label>
               <select v-model="filters.status" @change="onFilterChange">
                 <option value="">All</option>
@@ -62,7 +70,7 @@ export default {
     const totalBookings = ref(0)
     const members = ref([])
     const currentParams = ref({ page: 1, limit: 10 })
-    const filters = reactive({ class_name: '', status: '', booking_date: '' })
+    const filters = reactive({ class_name: '', phone: '', status: '', booking_date: '' })
     const defaultErrorMessage = 'Failed to perform action'
     let debounceTimer = null
 
@@ -120,9 +128,19 @@ export default {
           page: params.page || 1,
           limit: params.limit || 10,
           class_name: filters.class_name || '',
+          username: filters.username || '',
+          phone: filters.phone || '',
           status: filters.status || '',
           booking_date: filters.booking_date || ''
         })
+
+        // reformat booking date and start end time
+        response.bookings.forEach(b => {
+          b.booking_date = new Date(b.booking_date).toISOString().split('T')[0]
+          b.start_time = new Date(`1970-01-01T${b.start_time}Z`).toISOString().split('T')[1].split('.')[0]
+          b.end_time = new Date(`1970-01-01T${b.end_time}Z`).toISOString().split('T')[1].split('.')[0]
+        })
+        
         bookings.value = response.bookings || []
         totalBookings.value = response.total || bookings.value.length
       } catch (error) {
@@ -167,6 +185,10 @@ export default {
       }
     }
 
+    const handleSearch = () => {
+      fetchBookings({ ...currentParams.value, page: 1 })
+    }
+
     const handleDelete = async (row) => {
       try {
         await bookingService.deleteBooking(row.id)
@@ -186,7 +208,7 @@ export default {
       loading, bookings, totalBookings, filters,
       bookingColumns, bookingFormFields,
       handleParamsChange, onFilterChange,
-      handleView, handleCreate, handleUpdate, handleDelete
+      handleView, handleCreate, handleUpdate, handleDelete, handleSearch
     }
   }
 }

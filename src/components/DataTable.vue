@@ -3,6 +3,10 @@
     <!-- Header with Add Button -->
     <div v-if="showAddButton" class="table-header">
       <slot name="filters"></slot>
+      <!-- search button on click search fetch data -->
+      <button class="btn btn-success" @click="handleSearch">
+        <i class="mdi mdi-magnify"></i> Search
+      </button>
       <button class="btn btn-primary add-btn" @click="handleCreate">
         <i class="mdi mdi-plus"></i> New
       </button>

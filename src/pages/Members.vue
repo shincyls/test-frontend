@@ -65,9 +65,6 @@ export default {
       { field: 'email', title: 'Email', sortable: true },
       { field: 'phone', title: 'Phone', sortable: true },
       { field: 'position', title: 'Position', sortable: true },
-      { field: 'department', title: 'Department', sortable: true },
-      { field: 'role', title: 'Role', sortable: true },
-      { field: 'isActive', title: 'Status', sortable: true },
       { field: 'current_points', title: 'Points', sortable: true },
       { field: 'created_at', title: 'Joined', sortable: true }
     ]
@@ -100,8 +97,13 @@ export default {
           limit: params.limit || 10,
           name: filters.name || '',
           username: filters.username || '',
-          email: filters.email || ''
+          phone: filters.phone || ''
         })
+        // reformat created_at date
+        response.admins.forEach(m => {
+          m.created_at = new Date(m.created_at).toISOString().split('T')[0]
+        })
+        
         members.value = response.admins || []
         totalMembers.value = response.total || members.value.length
       } catch (error) {
@@ -149,6 +151,10 @@ export default {
       }
     }
 
+    const handleSearch = () => {
+      fetchMembers({ ...currentParams.value, page: 1 })
+    }
+
     const handleDelete = async (row) => {
       try {
         await userService.deleteUser(row.id)
@@ -166,7 +172,7 @@ export default {
       loading, members, totalMembers, filters,
       memberColumns, memberFormFields,
       handleParamsChange, onFilterChange,
-      handleView, handleCreate, handleUpdate, handleDelete
+      handleView, handleCreate, handleUpdate, handleDelete, handleSearch
     }
   }
 }

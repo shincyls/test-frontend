@@ -44,7 +44,7 @@
 <script>
 import { ref, onMounted } from 'vue'
 import MainLayout from '../layouts/MainLayout.vue'
-import userService from '../services/user'
+import userService from '../services/member'
 import bookingService from '../services/booking'
 
 export default {
@@ -58,7 +58,7 @@ export default {
     const fetchStats = async () => {
       try {
 
-        const response = await userService.getUsers({ page: 1, limit: 1 })
+        const response = await userService.getUsers()
         totalMembers.value = response.total || response.meta?.total || 0
 
         const bookingResponse = await bookingService.getBookings({ page: 1, limit: 1 })
@@ -73,7 +73,7 @@ export default {
 
     onMounted(() => { fetchStats() })
 
-    return { totalMembers }
+    return { totalMembers, todayBookings }
   }
 }
 </script>

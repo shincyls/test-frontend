@@ -51,7 +51,7 @@ import { toast } from 'vue3-toastify'
 import MainLayout from '../layouts/MainLayout.vue'
 import DataTable from '../components/DataTable.vue'
 import bookingService from '../services/booking'
-import userService from '../services/user'
+import userService from '../services/member'
 
 export default {
   name: 'BookingsPage',

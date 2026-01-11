@@ -4,7 +4,7 @@
     <div v-if="showAddButton" class="table-header">
       <slot name="filters"></slot>
       <button class="btn btn-primary add-btn" @click="handleCreate">
-        <i class="mdi mdi-plus"></i> New Member
+        <i class="mdi mdi-plus"></i> New
       </button>
     </div>
 

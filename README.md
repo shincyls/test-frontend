@@ -5,7 +5,7 @@ A Vue 3 + Vite application for managing a fitness centre. Provides a modern UI f
 ## Features
 
 - **Dashboard**: Overview of fitness centre statistics
-- **Members Management**: View, create, edit, and delete members
+- **Members Management**: View, create, edit, delete members, view class bookings
 - **Bookings Management**: View, create, edit, and delete class bookings
 - **Authentication**: Login/Logout with token-based auth
 
@@ -56,6 +56,10 @@ src/
 ```
 
 ## Test Credentials
+
+In test-backend, if following is done:
+php artisan migrate:fresh --seed
+Can use credential below to login:
 
 - **Username**: `admin`
 - **Password**: `password123`

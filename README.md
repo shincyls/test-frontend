@@ -37,9 +37,11 @@ npm run build
 
 Build output will be in the `dist` folder.
 
-## Configuration
+## Configuration for .env
 
-The API URL is configured in `src/services/api.js`. By default it points to `http://127.0.0.1:8000`.
+cp .env.example .env
+Update API_BASE_URL in .env to point to your backend API.
+By default it points to `http://127.0.0.1:8000`.
 
 ## Project Structure
 

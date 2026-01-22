@@ -1,21 +1,31 @@
 ﻿import { createRouter, createWebHistory } from 'vue-router'
 import store from '../store'
 
+const Main = () => import('../pages/Main.vue')
 const Login = () => import('../pages/Login.vue')
 const Dashboard = () => import('../pages/Dashboard.vue')
-const Members = () => import('../pages/Members.vue')
-const Bookings = () => import('../pages/Bookings.vue')
+const Locations = () => import('../pages/Locations.vue')
+const Admins = () => import('../pages/Admins.vue')
+const Users = () => import('../pages/Users.vue')
+const Sellers = () => import('../pages/Sellers.vue')
+const Products = () => import('../pages/Products.vue')
+const Sales = () => import('../pages/Sales.vue')
+const Orders = () => import('../pages/Orders.vue')
+const Setting = () => import('../pages/Setting.vue')
+
 
 const routes = [
   {
     path: '/',
-    redirect: '/dashboard'
+    name: 'Main',
+    component: Main,
+    meta: { requiresAuth: false }
   },
   {
     path: '/login',
     name: 'Login',
     component: Login,
-    meta: { requiresGuest: true }
+    meta: { requiresAuth: false }
   },
   {
     path: '/dashboard',
@@ -24,17 +34,47 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/members',
-    name: 'Members',
-    component: Members,
+    path: '/admins',
+    name: 'Admins',
+    component: Admins,
     meta: { requiresAuth: true }
-  },
-  {
-    path: '/bookings',
-    name: 'Bookings',
-    component: Bookings,
+  },{
+    path: '/users',
+    name: 'Users',
+    component: Users,
+    meta: { requiresAuth: true }
+  },{
+    path: '/locations',
+    name: 'Locations',
+    component: Locations,
+    meta: { requiresAuth: true }
+  },{
+    path: '/sellers',
+    name: 'Sellers',
+    component: Sellers,
+    meta: { requiresAuth: true }
+  },{
+    path: '/products',
+    name: 'Products',
+    component: Products,
+    meta: { requiresAuth: true }
+  },{
+    path: '/sales',
+    name: 'Sales',
+    component: Sales,
+    meta: { requiresAuth: true }
+  },{
+    path: '/orders',
+    name: 'Orders',
+    component: Orders,
+    meta: { requiresAuth: true }
+  },{
+    path: '/settings',
+    name: 'Setting',
+    component: Setting,
     meta: { requiresAuth: true }
   }
+
 ]
 
 const router = createRouter({
@@ -48,7 +88,10 @@ router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth && !isAuthenticated) {
     next({ name: 'Login' })
   } else if (to.meta.requiresGuest && isAuthenticated) {
-    next({ name: 'Dashboard' })
+    // catch params and query
+    const { params, query } = to
+    // redirect to dashboard with params and query
+    next({ name: 'Dashboard', params, query })
   } else {
     next()
   }

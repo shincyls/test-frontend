@@ -11,7 +11,7 @@ export const login = async (credentials) => {
 }
 
 export const getUser = async () => {
-  const response = await get(AUTH_PATH + '/user')
+  const response = await get(AUTH_PATH + '/admin')
   return response
 }
 

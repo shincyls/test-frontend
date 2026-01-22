@@ -44,8 +44,8 @@
 <script>
 import { ref, onMounted } from 'vue'
 import MainLayout from '../layouts/MainLayout.vue'
-import userService from '../services/member'
-import bookingService from '../services/booking'
+import userService from '../services/admin'
+import bookingService from '../services/location'
 
 export default {
   name: 'DashboardPage',

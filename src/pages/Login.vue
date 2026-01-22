@@ -2,7 +2,7 @@
   <div class="login-container">
     <div class="login-card">
       <div class="login-header">
-        <h1>Fitness Centre</h1>
+        <h1>Weplace Portal</h1>
         <p>Sign in to your account</p>
       </div>
       

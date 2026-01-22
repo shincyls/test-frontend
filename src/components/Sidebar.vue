@@ -11,15 +11,45 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/members" class="nav-link" @click="$emit('close')">
-              <i class="mdi mdi-account-group"></i>
-              <span>Members</span>
+            <router-link to="/locations" class="nav-link" @click="$emit('close')">
+              <i class="mdi mdi-map-marker"></i>
+              <span>Locations</span>
             </router-link>
           </li>
           <li>
-            <router-link to="/bookings" class="nav-link" @click="$emit('close')">
-              <i class="mdi mdi-calendar"></i>
-              <span>Bookings</span>
+            <router-link to="/users" class="nav-link" @click="$emit('close')">
+              <i class="mdi mdi-account-group"></i>
+              <span>Users</span>
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/sellers" class="nav-link" @click="$emit('close')">
+              <i class="mdi mdi-store"></i>
+              <span>Sellers</span>
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/products" class="nav-link" @click="$emit('close')">
+              <i class="mdi mdi-package"></i>
+              <span>Products</span>
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/sales" class="nav-link" @click="$emit('close')">
+              <i class="mdi mdi-cash"></i>
+              <span>Sales</span>
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/orders" class="nav-link" @click="$emit('close')">
+              <i class="mdi mdi-cart"></i>
+              <span>Orders</span>
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/admins" class="nav-link" @click="$emit('close')">
+              <i class="mdi mdi-account-cog"></i>
+              <span>Admins</span>
             </router-link>
           </li>
           <li>

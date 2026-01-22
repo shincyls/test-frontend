@@ -1,6 +1,6 @@
 import { get, post, put, del } from './api'
 
-const USER_PATH = '/api/v1/web/members/'
+const USER_PATH = '/api/v1/web/user'
 
 export const getUsers = async (params = {}) => {
   const response = await get(USER_PATH, params)
@@ -8,7 +8,7 @@ export const getUsers = async (params = {}) => {
 }
 
 export const getUserById = async (id) => {
-  const response = await get(USER_PATH + id)
+  const response = await get(USER_PATH + '/' + id)
   return response
 }
 
@@ -18,12 +18,12 @@ export const createUser = async (userData) => {
 }
 
 export const updateUser = async (id, userData) => {
-  const response = await put(USER_PATH + id, userData)
+  const response = await put(USER_PATH + '/' + id, userData)
   return response
 }
 
 export const deleteUser = async (id) => {
-  const response = await del(USER_PATH + id)
+  const response = await del(USER_PATH + '/' + id)
   return response
 }
 

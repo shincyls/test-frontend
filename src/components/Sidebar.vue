@@ -113,17 +113,20 @@ export default {
   color: #666;
   text-decoration: none;
   transition: all 0.2s;
+  border-radius: 8px;
+  margin: 0 0.5rem;
 }
 
 .nav-link:hover {
-  background: #f5f5f5;
-  color: #333;
+  background: #E8F9F0;
+  color: #14C56C;
 }
 
 .nav-link.router-link-active,
 .nav-link.router-link-exact-active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #14C56C 0%, #0FA858 100%);
   color: white;
+  box-shadow: 0 2px 8px rgba(20, 197, 108, 0.2);
 }
 
 .nav-link i {

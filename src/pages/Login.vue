@@ -99,7 +99,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #14C56C 0%, #0891B2 100%);
   padding: 1rem;
 }
 
@@ -156,8 +156,8 @@ export default {
 
 .form-group input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #14C56C;
+  box-shadow: 0 0 0 3px rgba(20, 197, 108, 0.1);
 }
 
 .form-group input:disabled {
@@ -175,7 +175,7 @@ export default {
 }
 
 .login-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #14C56C 0%, #0FA858 100%);
   color: white;
   border: none;
   padding: 0.875rem;
@@ -188,7 +188,7 @@ export default {
 
 .login-button:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 12px rgba(20, 197, 108, 0.4);
 }
 
 .login-button:disabled {

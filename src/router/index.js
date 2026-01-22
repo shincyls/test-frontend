@@ -13,7 +13,6 @@ const Sales = () => import('../pages/Sales.vue')
 const Orders = () => import('../pages/Orders.vue')
 const Setting = () => import('../pages/Setting.vue')
 
-
 const routes = [
   {
     path: '/',

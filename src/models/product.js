@@ -1,22 +1,67 @@
-const adminModel = [
-    { key: 'name', label: 'Name', type: 'text', required: true, column: 1 },
-    { key: 'username', label: 'Username', type: 'text', required: true, column: 2 },
-    { key: 'email', label: 'Email', type: 'email', required: true, column: 3 },
-    { key: 'phone', label: 'Phone', type: 'text', column: 4 },
-    { key: 'position', label: 'Position', type: 'text', column: 5 },
-    { key: 'department', label: 'Department', type: 'text', column: 6 },
-    { key: 'current_points', label: 'Points', type: 'text', column: 0 },
-    { key: 'created_at', label: 'Since', type: 'text', column: 0 },
-    { key: 'role', label: 'Role', type: 'select', options: [
-    { value: 'member', label: 'Member' },
-    { value: 'staff', label: 'Staff' },
-    { value: 'admin', label: 'Admin' }
-    ]},
-    { key: 'isActive', label: 'Active', type: 'select', options: [
-    { value: true, label: 'Active' },
-    { value: false, label: 'Inactive' }
-    ]},
-    { key: 'password', label: 'Password (Leave blank to keep current)', type: 'password' },
+import { formatPrice, formatActive } from '../utils/formatters.js'
+
+const productTableColumns = [
+    { field: 'productName', title: 'Name', sortable: true },
+    { field: 'productDesc', title: 'Description', sortable: true },
+    { field: 'productCategory', title: 'Category', sortable: true },
+    { field: 'productPrice', title: 'Price', sortable: true, format: formatPrice },
+    { field: 'isActive', title: 'Active', sortable: true, format: formatActive }
 ]
 
-export default adminModel
+const productFormFields = [
+    {
+        key: 'productName',
+        label: 'Name',
+        type: 'text',
+        required: true,
+        validation: {
+            minLength: 3,
+            maxLength: 200,
+            message: 'Product name must be between 3 and 200 characters'
+        }
+    },
+    {
+        key: 'productDesc',
+        label: 'Description',
+        type: 'textarea',
+        required: true,
+        validation: {
+            maxLength: 1000,
+            message: 'Description must not exceed 1000 characters'
+        }
+    },
+    {
+        key: 'productCategory',
+        label: 'Category',
+        type: 'text',
+        required: true,
+        validation: {
+            maxLength: 100
+        }
+    },
+    {
+        key: 'productPrice',    
+        label: 'Price (RM)',
+        type: 'number',
+        required: true,
+        validation: {
+            min: 0,
+            message: 'Price must be a positive number'
+        },
+        format: formatPrice
+    },
+    {
+        key: 'isActive',
+        label: 'Active',
+        type: 'select',
+        required: true,
+        options: [
+            { value: true, label: 'Active' },
+            { value: false, label: 'Inactive' }
+        ]
+    }
+]
+
+const productUpdateFormFields = []
+
+export { productTableColumns, productFormFields, productUpdateFormFields }

@@ -4,7 +4,7 @@
       <button class="menu-toggle" @click="$emit('toggle-sidebar')" aria-label="Toggle menu">
         <span class="menu-icon"></span>
       </button>
-      <h1>Fitness Centre</h1>
+      <h1>Weplace Portal</h1>
     </div>
     
     <div class="navbar-actions">
@@ -53,8 +53,8 @@ export default {
   justify-content: space-between;
   padding: 0 1.5rem;
   height: 60px;
-  background: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  background: linear-gradient(135deg, #14C56C 0%, #0891B2 100%);
+  box-shadow: 0 2px 8px rgba(20, 197, 108, 0.2);
   position: fixed;
   top: 0;
   left: 0;
@@ -70,8 +70,9 @@ export default {
 
 .navbar-brand h1 {
   font-size: 1.25rem;
-  color: #333;
+  color: white;
   margin: 0;
+  font-weight: 600;
 }
 
 .menu-toggle {
@@ -86,7 +87,7 @@ export default {
   display: block;
   width: 24px;
   height: 2px;
-  background: #333;
+  background: white;
   position: relative;
 }
 
@@ -96,7 +97,7 @@ export default {
   position: absolute;
   width: 24px;
   height: 2px;
-  background: #333;
+  background: white;
   left: 0;
 }
 
@@ -117,26 +118,29 @@ export default {
 
 .user-name {
   font-size: 0.9rem;
-  color: #666;
+  color: white;
+  font-weight: 500;
 }
 
 .logout-btn {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: none;
-  border: 1px solid #ddd;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 0.5rem 1rem;
   border-radius: 6px;
-  color: #666;
+  color: white;
   cursor: pointer;
   transition: all 0.2s;
+  backdrop-filter: blur(10px);
 }
 
 .logout-btn:hover {
-  background: #f5f5f5;
-  border-color: #ccc;
-  color: #333;
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 768px) {

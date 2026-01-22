@@ -13,7 +13,7 @@
     </div>
 
     <Vue3Datatable
-      :rows="rows"
+      :rows="formattedRows"
       :columns="tableColumns"
       :totalRows="totalRows"
       :isServerMode="true"
@@ -68,27 +68,27 @@
 
     <!-- Update Modal -->
     <div v-if="showUpdateModal" class="modal-overlay" @click.self="closeUpdateModal">
-      <div class="modal-container" :data-id="selectedRow?._id || selectedRow?.id">
+      <div class="modal-container" :data-id="selectedRow?.id">
         <div class="modal-header">
           <h3>Update Record</h3>
-          <span class="record-id" v-if="selectedRow?._id || selectedRow?.id">ID: {{ selectedRow?._id || selectedRow?.id }}</span>
+          <span class="record-id" v-if="selectedRow?.id">ID: {{ selectedRow?.id }}</span>
           <button class="close-btn" @click="closeUpdateModal">&times;</button>
         </div>
         <form @submit.prevent="submitUpdate">
-          <input type="hidden" name="_id" :value="formData._id || formData.id" />
+          <input type="hidden" name="id" :value="formData.id" />
           <div class="modal-body">
             <div class="form-grid">
-              <div v-for="field in formFields" :key="field.key" class="form-group">
+              <div v-for="field in updateFormFields" :key="field.key" class="form-group">
                 <label :for="field.key">{{ field.label }}</label>
-                <input v-if="field.type !== 'select'" 
-                  :type="field.type || 'text'" 
-                  :id="field.key" v-model="formData[field.key]" 
-                  :required="field.required" 
+                <input v-if="field.type !== 'select'"
+                  :type="field.type || 'text'"
+                  :id="field.key" v-model="formData[field.key]"
+                  :required="field.required"
                 class="form-input" />
                 <select v-else :id="field.key" v-model="formData[field.key]" class="form-input">
                   <option value="">Select...</option>
-                  <option v-for="opt in field.options" 
-                    :key="opt.value" 
+                  <option v-for="opt in field.options"
+                    :key="opt.value"
                     :value="opt.value">{{ opt.label }}
                 </option>
                 </select>
@@ -105,7 +105,7 @@
 
     <!-- Delete Modal -->
     <div v-if="showDeleteModal" class="modal-overlay" @click.self="closeDeleteModal">
-      <div class="modal-container modal-sm" :data-id="selectedRow?._id || selectedRow?.id">
+      <div class="modal-container modal-sm" :data-id="selectedRow?.id">
         <div class="modal-header">
           <h3>Confirm Delete</h3>
           <button class="close-btn" @click="closeDeleteModal">&times;</button>
@@ -113,7 +113,7 @@
         <div class="modal-body text-center">
           <div class="confirm-icon"><i class="mdi mdi-alert"></i></div>
           <p>Are you sure you want to delete this record?</p>
-          <p class="record-id-delete">ID: {{ selectedRow?._id || selectedRow?.id }}</p>
+          <p class="record-id-delete">ID: {{ selectedRow?.id }}</p>
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" @click="closeDeleteModal">Cancel</button>
@@ -132,7 +132,7 @@
         <form @submit.prevent="submitCreate">
           <div class="modal-body">
             <div class="form-grid">
-              <div v-for="field in formFields" :key="field.key" class="form-group">
+              <div v-for="field in createFormFields" :key="field.key" class="form-group">
                 <label :for="'create-' + field.key">{{ field.label }}</label>
                 <input v-if="field.type !== 'select'" :type="field.type || 'text'" :id="'create-' + field.key" v-model="createFormData[field.key]" :required="field.required" class="form-input" />
                 <select v-else :id="'create-' + field.key" v-model="createFormData[field.key]" class="form-input">
@@ -166,10 +166,11 @@ export default {
     totalRows: { type: Number, default: 0 },
     loading: { type: Boolean, default: false },
     actions: { type: Array, default: () => ['view', 'update', 'delete'] },
-    formFields: { type: Array, default: () => [] },
+    createFormFields: { type: Array, default: () => [] },
+    updateFormFields: { type: Array, default: () => [] },
     sortable: { type: Boolean, default: true },
     showAddButton: { type: Boolean, default: false },
-    rowKey: { type: String, default: '_id' }
+    rowKey: { type: String, default: 'id' }
   },
   emits: ['params-change', 'view', 'update', 'delete', 'create'],
   setup(props, { emit }) {
@@ -182,12 +183,39 @@ export default {
     const formData = reactive({})
     const createFormData = reactive({})
 
+    // Helper function to get nested value from object using dot notation
+    const getNestedValue = (obj, path) => {
+      return path.split('.').reduce((current, key) => current?.[key], obj)
+    }
+
+    // Helper function to format value using field's format function
+    const formatFieldValue = (value, column) => {
+      if (column.format && typeof column.format === 'function') {
+        return column.format(value)
+      }
+      return value
+    }
+
     const tableColumns = computed(() => {
       const cols = [...props.columns]
       if (props.actions.length > 0) {
         cols.push({ field: 'actions', title: 'Actions', sortable: false })
       }
       return cols
+    })
+
+    // Format rows data using format functions from columns
+    const formattedRows = computed(() => {
+      return props.rows.map(row => {
+        const formattedRow = { ...row }
+        props.columns.forEach(column => {
+          if (column.format && typeof column.format === 'function') {
+            const value = getNestedValue(row, column.field)
+            formattedRow[column.field] = formatFieldValue(value, column)
+          }
+        })
+        return formattedRow
+      })
     })
 
     const emitParamsChange = () => emit('params-change', { ...params })
@@ -222,13 +250,16 @@ export default {
     const submitCreate = () => { emit('create', { ...createFormData }); closeCreateModal() }
 
     return {
-      params, tableColumns,
+      params, tableColumns, formattedRows,
       showViewModal, showUpdateModal, showDeleteModal, showCreateModal,
       selectedRow, formData, createFormData,
+      createFormFields: props.createFormFields,
+      updateFormFields: props.updateFormFields,
       onPageChange, onPageSizeChange, onSearch, onSortChange,
       handleView, handleUpdate, handleDelete, handleCreate,
       closeViewModal, closeUpdateModal, closeDeleteModal, closeCreateModal,
-      submitUpdate, confirmDelete, submitCreate
+      submitUpdate, confirmDelete, submitCreate,
+      handleSearch: emitParamsChange
     }
   }
 }
@@ -276,10 +307,10 @@ export default {
   transition: all 0.2s;
 }
 
-.action-btn.view { background: #e3f2fd; color: #1976d2; }
-.action-btn.view:hover { background: #1976d2; color: white; }
-.action-btn.edit { background: #fff3e0; color: #f57c00; }
-.action-btn.edit:hover { background: #f57c00; color: white; }
+.action-btn.view { background: #E8F9F0; color: #14C56C; }
+.action-btn.view:hover { background: #14C56C; color: white; }
+.action-btn.edit { background: #FEF3C7; color: #F59E0B; }
+.action-btn.edit:hover { background: #F59E0B; color: white; }
 .action-btn.delete { background: #ffebee; color: #d32f2f; }
 .action-btn.delete:hover { background: #d32f2f; color: white; }
 
@@ -411,7 +442,8 @@ export default {
 
 .form-input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #14C56C;
+  box-shadow: 0 0 0 3px rgba(20, 197, 108, 0.1);
 }
 
 .btn {
@@ -425,8 +457,25 @@ export default {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #14C56C 0%, #0FA858 100%);
   color: white;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #0FA858 0%, #0C8A48 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(20, 197, 108, 0.3);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #0891B2 0%, #0E7490 100%);
+  color: white;
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, #0E7490 0%, #155E75 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(8, 145, 178, 0.3);
 }
 
 .btn-secondary {
